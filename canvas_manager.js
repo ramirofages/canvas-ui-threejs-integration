@@ -36,19 +36,16 @@ function Sticker(x, y, w, h, rot_deg, img_url) {
 
 Sticker.prototype.rotate = function (degrees)
 {
-  context.clearRect(0, 0, 512, 512);
-  context.save();
-  var pos = this.position();
-  context.translate(pos.x, pos.y);
-
-
-  context.rotate(degrees * Math.PI /180);
-  context.drawImage(this.image, -pos.x, -pos.y, this.width, this.height);
-  context.restore();
+  this.rot_deg += degrees;
 };
 Sticker.prototype.draw = function ()
 {
-  context.drawImage(this.image, this.x, this.y, this.width, this.height);
+  context.save();
+  var pos = this.position();
+  context.translate(pos.x, pos.y);
+  context.rotate(this.rot_deg * Math.PI /180);
+  context.drawImage(this.image, 0 - this.width/2, 0 - this.height/2, this.width, this.height);
+  context.restore();
 };
 Sticker.prototype.position = function ()
 {
@@ -72,14 +69,6 @@ Sticker.prototype.contains = function(point)
 
 
 
-
-
-// var grd = context.createLinearGradient(0, 0, canvas.width, canvas.height);
-// grd.addColorStop(0, '#8ED6FF');
-// grd.addColorStop(1, '#004CB3');
-// context.fillStyle = grd;
-// context.fill();
-
 var mouse_pos = new Vector2(0,0);
 var mouse_down = false;
 var mouse_offset = new Vector2(0,0);
@@ -92,24 +81,21 @@ var m_pos = function(e)
 }
 function draw_scene()
 {
-   context.clearRect(0, 0, 512, 512);
-  // context.fill();
+  context.clearRect(0, 0, 512, 512);
   stick.draw();
   circle.draw();
 
 }
 canvas.addEventListener('mousedown', function(e) {
-
   if(circle.contains(m_pos(e)))
   {
     mouse_down = true;
-    mouse_pos = new Vector2(m_pos(e).x,m_pos(e).y);
+    mouse_pos = new Vector2(m_pos(e).x, m_pos(e).y);
     mouse_offset = circle.position().sub(mouse_pos);
 
     circle.set_position(mouse_pos.add(mouse_offset));
 
     draw_scene();
-
   }
 });
 canvas.addEventListener('mouseup', function(e) {
@@ -123,6 +109,7 @@ canvas.addEventListener('mousemove', function(e) {
   {
     circle.set_position(m_pos(e).add(mouse_offset));
     draw_scene();
+
   }
 });
 
