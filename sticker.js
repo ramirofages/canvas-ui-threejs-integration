@@ -19,10 +19,6 @@ Sticker.prototype.draw = function(draw_ctrl)
 
   }
 }
-Sticker.prototype.contains = function(point)
-{
-  return this.main_image.contains(point);
-}
 
 Sticker.prototype.contains_controller = function(point)
 {
