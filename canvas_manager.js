@@ -59,20 +59,18 @@ canvas.addEventListener('mousemove', function(e) {
 var background = new Image();
 background.src = 'kartStickers.jpg';
 canvas_scene.add_sticker (new Sticker(new Vector2(80,80), new Vector2(128,128), 'calcomania.jpg'));
-canvas_scene.add_sticker (new Sticker(new Vector2(150,180), new Vector2(128,128), 'car.png'));
 
 
-var upload_image = function(){
+function handleImage(e){
+    var reader = new FileReader();
+    reader.onload = function(event){
 
-  function handleImage(e){
-      var reader = new FileReader();
-      console.log(e);
-      reader.readAsDataURL(e.target.files[0]);
-  }
-  var input = document.createElement('input');
-  input.type ="file";
+      canvas_scene.add_sticker (new Sticker(new Vector2(150,180), new Vector2(128,128), event.target.result));
 
-  input.addEventListener('change', handleImage, false);
-  input.click( );
+    }
+    reader.readAsDataURL(e.target.files[0]);
 }
-upload_image();
+var input = document.createElement('input');
+input.type ="file";
+document.getElementById('body').appendChild(input);
+input.addEventListener('change', handleImage, false);
