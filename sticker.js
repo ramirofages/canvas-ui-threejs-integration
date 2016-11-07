@@ -1,10 +1,11 @@
 function Sticker(position, size, img_url)
 {
   this.main_image = new CanvasElement(position.x, position.y, size.x, size.y, 0, img_url);
-  this.rotate_elem = new CanvasElement( position.x - size.x/2, position.y - size.y/2, 32,32, 0, 'rotate.png');
-  this.resize_elem = new CanvasElement( position.x + size.x/2, position.y + size.y/2, 32,32, 0, 'resize.png');
+  this.rotate_elem = new CanvasElement( position.x - this.main_image.img_size().x/2 , position.y - this.main_image.img_size().y/2, 32,32, 0, 'rotate.png');
+  this.resize_elem = new CanvasElement( position.x + this.main_image.img_size().x/2 , position.y + this.main_image.img_size().y/2, 32,32, 0, 'resize.png');
   this.rotate_controller = new StickerRotationController(this, this.rotate_elem);
   this.scale_controller = new StickerScalingController(this, this.resize_elem);
+  this.movement_controller = new StickerMovementController(this, this.main_image);
 
 }
 
@@ -25,7 +26,9 @@ Sticker.prototype.contains = function(point)
 
 Sticker.prototype.contains_controller = function(point)
 {
-  return this.rotate_controller.contains(point) || this.scale_controller.contains(point);
+  return this.rotate_controller.contains(point) ||
+         this.scale_controller.contains(point) ||
+         this.movement_controller.contains(point);
 }
 Sticker.prototype.get_controller = function(point)
 {
@@ -33,6 +36,8 @@ Sticker.prototype.get_controller = function(point)
     return this.rotate_controller;
   if(this.scale_controller.contains(point))
     return this.scale_controller;
+  if(this.movement_controller.contains(point))
+    return this.movement_controller;
 
   return null; // te rompo todo
 }

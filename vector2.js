@@ -19,3 +19,7 @@ Vector2.prototype.distance = function(vec1)
 {
    return this.sub(vec1).length();
 }
+Vector2.prototype.copy = function()
+{
+  return new Vector2(this.x, this.y);
+}

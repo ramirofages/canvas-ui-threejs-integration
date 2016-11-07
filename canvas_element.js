@@ -1,9 +1,9 @@
 function CanvasElement(x, y, w, h, rot_deg, img_url) {
-  this.x = x || 0;
+  this.x = x - w/2;
 
-  this.y = y || 0;
-  this.width = w || 100;
-  this.height = h || 100;
+  this.y = y - h/2;
+  this.width = w;
+  this.height = h;
   this.rot_deg = rot_deg || 0;
   this.scale = 1;
   this.image = new Image();
