@@ -24,7 +24,7 @@ CanvasElement.prototype.rotate = function (degrees)
 {
   this.rot_deg += degrees;
 };
-CanvasElement.prototype.draw = function (context, downscale_factor)
+CanvasElement.prototype.draw = function (context, downscale_factor, draw_border)
 {
   var size = this.img_size(context.canvas, downscale_factor);
   var canvas_size = new Vector2(context.canvas.width, context.canvas.height);
@@ -38,12 +38,20 @@ CanvasElement.prototype.draw = function (context, downscale_factor)
 
   if(this.image.complete)
   {
+    var image_pos = new Vector2(0 - size.x * canvas_size.x/2 ,
+                                0 - size.y * canvas_size.y /2);
+    var image_size = new Vector2(size.x * canvas_size.x,
+                                 size.y * canvas_size.y);
+    context.drawImage(this.image, image_pos.x, image_pos.y, image_size.x, image_size.y);
 
-    context.drawImage(this.image,
-                      0 - size.x * canvas_size.x/2 ,
-                      0 - size.y * canvas_size.y /2 ,
-                      size.x * canvas_size.x,
-                      size.y * canvas_size.y);
+    if(draw_border )
+    {
+      context.strokeStyle = '#f00';  // some color/style
+      context.lineWidth = 2;         // thickness
+      context.strokeRect(image_pos.x, image_pos.y, image_size.x, image_size.y );
+    }
+    
+
   }
 
   context.restore();

@@ -21,6 +21,7 @@ var normalized_mouse_pos = function(e)
   return new Vector2(x/canvas.width,y/canvas.height);
 }
 
+var downscale_factor = 1;
 function draw_scene(show_controllers)
 {
 
@@ -32,9 +33,9 @@ function draw_scene(show_controllers)
     context.drawImage(background, 0 , 0 , canvas.width, canvas.height);
     offscreen_context.drawImage(background, 0 , 0 , offscreen_canvas.width, offscreen_canvas.height);
 
-    var downscale_factor = background.width / canvas.width;
-    canvas_scene.draw(context, true, downscale_factor);
-    canvas_scene.draw(offscreen_context, true, 1);
+    downscale_factor = background.width / canvas.width;
+    canvas_scene.draw(context, true, downscale_factor, true);
+    canvas_scene.draw(offscreen_context, false, 1, false);
   }
 
 
@@ -43,7 +44,7 @@ function draw_scene(show_controllers)
 }
 
 canvas.addEventListener('mousedown', function(e) {
-  active_controller = canvas_scene.get_active_controller(normalized_mouse_pos(e), canvas);
+  active_controller = canvas_scene.get_active_controller(normalized_mouse_pos(e), canvas, downscale_factor);
 
   if(active_controller !== null)
   {

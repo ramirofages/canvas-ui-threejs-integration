@@ -9,33 +9,33 @@ function Sticker(position, img_url)
 
 }
 
-Sticker.prototype.draw = function(context, draw_ctrl, downscale_factor)
+Sticker.prototype.draw = function(context, draw_ctrl, downscale_factor, draw_border)
 {
-  this.main_image.draw(context, downscale_factor);
+  this.main_image.draw(context, downscale_factor, draw_border );
   if(draw_ctrl)
   {
     this.update_controllers_position(context.canvas, downscale_factor);
-    this.rotate_elem.draw(context, 1);
-    this.resize_elem.draw(context, 1);
+    this.rotate_elem.draw(context, 1, true);
+    this.resize_elem.draw(context, 1, true);
 
   }
 }
 
-Sticker.prototype.contains_controller = function(point, canvas)
+Sticker.prototype.contains_controller = function(point, canvas, downscale_factor)
 {
 
   return this.rotate_controller.contains(point, canvas, 1) ||
          this.scale_controller.contains(point, canvas, 1) ||
-         this.movement_controller.contains(point, canvas, 1);
+         this.movement_controller.contains(point, canvas,  downscale_factor);
 }
-Sticker.prototype.get_controller = function(point, canvas)
+Sticker.prototype.get_controller = function(point, canvas, downscale_factor)
 {
 
   if(this.rotate_controller.contains(point, canvas, 1))
     return this.rotate_controller;
   if(this.scale_controller.contains(point, canvas, 1))
     return this.scale_controller;
-  if(this.movement_controller.contains(point, canvas, 1))
+  if(this.movement_controller.contains(point, canvas, downscale_factor))
     return this.movement_controller;
 
   return null; // te rompo todo
