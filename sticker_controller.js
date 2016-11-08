@@ -8,9 +8,9 @@ StickerRotationController.prototype.init = function (initial_mouse_pos)
 {
   this.initial_mouse_pos = initial_mouse_pos.copy();
 }
-StickerRotationController.prototype.contains = function( mouse_position)
+StickerRotationController.prototype.contains = function( mouse_position, canvas, downscale_factor)
 {
-  return this.canvas_element.contains( mouse_position );
+  return this.canvas_element.contains( mouse_position, canvas, downscale_factor );
 }
 
 StickerRotationController.prototype.update = function( current_mouse_position)
@@ -38,9 +38,9 @@ StickerScalingController.prototype.init = function(initial_mouse_pos)
   this.initial_mouse_pos = initial_mouse_pos.copy();
 }
 
-StickerScalingController.prototype.contains = function( mouse_position)
+StickerScalingController.prototype.contains = function( mouse_position, canvas, downscale_factor)
 {
-  return this.canvas_element.contains( mouse_position );
+  return this.canvas_element.contains( mouse_position, canvas, downscale_factor );
 }
 
 StickerScalingController.prototype.update = function( current_mouse_position)
@@ -63,7 +63,6 @@ function StickerMovementController ( sticker, canvas_element_ctrl)
   this.canvas_element = canvas_element_ctrl;
   this.initial_mouse_pos = new Vector2(0,0);
   this.initial_offset = new Vector2(0,0);
-
 }
 
 StickerMovementController.prototype.init = function( initial_mouse_pos)
@@ -72,9 +71,9 @@ StickerMovementController.prototype.init = function( initial_mouse_pos)
   this.initial_offset = this.sticker_element.position().sub(initial_mouse_pos);
 }
 
-StickerMovementController.prototype.contains = function( mouse_position)
+StickerMovementController.prototype.contains = function( mouse_position, canvas, downscale_factor)
 {
-  return this.canvas_element.contains( mouse_position );
+  return this.canvas_element.contains( mouse_position, canvas, downscale_factor );
 }
 
 StickerMovementController.prototype.update = function( current_mouse_position)

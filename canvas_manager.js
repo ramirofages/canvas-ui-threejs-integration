@@ -7,6 +7,9 @@ var canvas_scene = new CanvasScene(canvas.width, canvas.height);
 
 var active_controller = null;
 
+var downscale_factor = 4;
+
+
 var m_pos = function(e)
 {
   var rect = canvas.getBoundingClientRect();
@@ -25,12 +28,12 @@ function draw_scene(show_controllers)
     context.drawImage(background, 0 , 0 , canvas.width, canvas.height);
   }
 
-  canvas_scene.draw(context, true, 4);
+  canvas_scene.draw(context, true, downscale_factor);
 
 }
 
 canvas.addEventListener('mousedown', function(e) {
-  active_controller = canvas_scene.get_active_controller(m_pos(e));
+  active_controller = canvas_scene.get_active_controller(m_pos(e), canvas);
 
   if(active_controller !== null)
   {
@@ -62,7 +65,7 @@ canvas.addEventListener('mousemove', function(e) {
 
 var background = new Image();
 background.src = 'kartStickers.jpg';
-canvas_scene.add_sticker (new Sticker(new Vector2(0.5,0.5), 4, 'calcomania.jpg'));
+canvas_scene.add_sticker (new Sticker(new Vector2(0.5,0.5), downscale_factor, 'calcomania.jpg'));
 
 //###############################             ##############################//
 //############################### FILE UPLOAD ##############################//
@@ -72,7 +75,7 @@ function handleImage(e){
     var reader = new FileReader();
     reader.onload = function(event){
 
-      canvas_scene.add_sticker (new Sticker(new Vector2(0.5,0.5), 4, event.target.result));
+      canvas_scene.add_sticker (new Sticker(new Vector2(0.5,0.5), downscale_factor, event.target.result));
 
     }
     reader.readAsDataURL(e.target.files[0]);
