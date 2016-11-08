@@ -2,6 +2,7 @@ var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 context.rect(0, 0, canvas.width, canvas.height);
 
+
 var canvas_scene = new CanvasScene(canvas.width, canvas.height);
 
 var active_controller = null;
@@ -11,17 +12,21 @@ var m_pos = function(e)
   var rect = canvas.getBoundingClientRect();
   var x = e.clientX - rect.left;
   var y = e.clientY - rect.top;
-  return new Vector2(x,y);
+  return new Vector2(x/canvas.width,y/canvas.height);
 }
 
 function draw_scene(show_controllers)
 {
 
-  context.clearRect(0, 0, 512, 512);
-  if(background.complete)
-    context.drawImage(background, 0 , 0 , 512, 512);
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
-  canvas_scene.draw();
+  if(background.complete)
+  {
+    context.drawImage(background, 0 , 0 , canvas.width, canvas.height);
+  }
+
+  canvas_scene.draw(context, true, 4);
+
 }
 
 canvas.addEventListener('mousedown', function(e) {
@@ -29,8 +34,7 @@ canvas.addEventListener('mousedown', function(e) {
 
   if(active_controller !== null)
   {
-    active_controller.init(new Vector2(m_pos(e).x, m_pos(e).y));
-
+    active_controller.init(new Vector2(m_pos(e).x , m_pos(e).y));
   }
 
 });
@@ -58,14 +62,17 @@ canvas.addEventListener('mousemove', function(e) {
 
 var background = new Image();
 background.src = 'kartStickers.jpg';
-canvas_scene.add_sticker (new Sticker(new Vector2(80,80), new Vector2(128,128), 'calcomania.jpg'));
+canvas_scene.add_sticker (new Sticker(new Vector2(0.5,0.5), 4, 'calcomania.jpg'));
 
+//###############################             ##############################//
+//############################### FILE UPLOAD ##############################//
+//###############################             ##############################//
 
 function handleImage(e){
     var reader = new FileReader();
     reader.onload = function(event){
 
-      canvas_scene.add_sticker (new Sticker(new Vector2(150,180), new Vector2(128,128), event.target.result));
+      canvas_scene.add_sticker (new Sticker(new Vector2(0.5,0.5), 4, event.target.result));
 
     }
     reader.readAsDataURL(e.target.files[0]);

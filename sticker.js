@@ -1,21 +1,21 @@
-function Sticker(position, size, img_url)
+function Sticker(position, downscale_factor, img_url)
 {
-  this.main_image = new CanvasElement(position.x, position.y, size.x, size.y, 0, img_url);
-  this.rotate_elem = new CanvasElement( position.x - this.main_image.img_size().x/2 , position.y - this.main_image.img_size().y/2, 32,32, 0, 'rotate.png');
-  this.resize_elem = new CanvasElement( position.x + this.main_image.img_size().x/2 , position.y + this.main_image.img_size().y/2, 32,32, 0, 'resize.png');
+  this.main_image = new CanvasElement(position.x, position.y, downscale_factor, img_url);
+  this.rotate_elem = new CanvasElement( position.x - this.main_image.img_size().x/2 , position.y - this.main_image.img_size().y/2, 1, 'new_rotate.png');
+  this.resize_elem = new CanvasElement( position.x + this.main_image.img_size().x/2 , position.y + this.main_image.img_size().y/2, 1, 'new_resize.png');
   this.rotate_controller = new StickerRotationController(this, this.rotate_elem);
   this.scale_controller = new StickerScalingController(this, this.resize_elem);
   this.movement_controller = new StickerMovementController(this, this.main_image);
 
 }
 
-Sticker.prototype.draw = function(draw_ctrl)
+Sticker.prototype.draw = function(context, draw_ctrl, downscale_factor)
 {
-  this.main_image.draw();
+  this.main_image.draw(context, downscale_factor);
   if(draw_ctrl)
   {
-    this.rotate_elem.draw();
-    this.resize_elem.draw();
+    this.rotate_elem.draw(context, 1);
+    this.resize_elem.draw(context, 1);
 
   }
 }

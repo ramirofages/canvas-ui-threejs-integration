@@ -20,6 +20,7 @@ StickerRotationController.prototype.update = function( current_mouse_position)
   var mouse_distance = current_mouse_position.distance(this.initial_mouse_pos);
   this.sticker_element.set_rotation(mouse_distance * rotation_sign);
 }
+
 //######################################################################################//
 //######################################################################################//
 //######################################################################################//
@@ -47,7 +48,7 @@ StickerScalingController.prototype.update = function( current_mouse_position)
   var mouse_diff = current_mouse_position.sub(this.initial_mouse_pos);
   var mouse_distance = current_mouse_position.distance(this.initial_mouse_pos);
   var rotation_sign = (mouse_diff.y > 0)? 1:-1; // positivo o negativo
-  var new_scale = Math.max(mouse_distance/100 * rotation_sign +1, 0.2);
+  var new_scale = Math.max(mouse_distance * rotation_sign +1, 0.01);
   this.sticker_element.set_scale(new_scale);
 }
 

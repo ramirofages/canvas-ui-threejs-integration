@@ -1,16 +1,22 @@
-function CanvasElement(x, y, w, h, rot_deg, img_url) {
-  this.x = x - w/2;
+function CanvasElement(x, y, downscale_factor, img_url) {
+  this.x = x;
 
-  this.y = y - h/2;
-  this.width = w;
-  this.height = h;
-  this.rot_deg = rot_deg || 0;
+  this.y = y;
+  this.width = 0.1; //placeholder
+  this.height = 0.1; //placeholder
+  this.rot_deg = 0;
   this.scale = 1;
+  this.downscale_factor = downscale_factor;
   this.image = new Image();
 
   var instance = this;
 
   this.image.onload = function() {
+    instance.width = this.width/ canvas.width ;
+    instance.height = this.height/ canvas.height ;
+    instance.x = instance.x - instance.img_size().x / 2 ;
+    instance.y = instance.y - instance.img_size().y / 2 ;
+
     draw_scene();
   };
 
@@ -22,20 +28,35 @@ CanvasElement.prototype.rotate = function (degrees)
 {
   this.rot_deg += degrees;
 };
-CanvasElement.prototype.draw = function ()
+CanvasElement.prototype.draw = function (current_context, downscale_factor)
 {
+  this.downscale_factor = downscale_factor;
   context.save();
+  var canvas_size = new Vector2(context.canvas.width, context.canvas.height);
+
   var pos = this.position();
-  context.translate(pos.x, pos.y);
-  context.rotate(this.rot_deg * Math.PI /180);
+  pos = new Vector2(pos.x * canvas_size.x, pos.y * canvas_size.y);
+
+  context.translate(pos.x , pos.y );
+  context.rotate(this.rot_deg * Math.PI /180 * canvas_size.y);
+
   if(this.image.complete)
-    context.drawImage(this.image, 0 - this.img_size().x/2, 0 - this.img_size().y/2, this.img_size().x, this.img_size().y);
+  {
+
+    context.drawImage(this.image,
+                      0 - this.img_size().x * canvas_size.x/2 ,
+                      0 - this.img_size().y * canvas_size.y /2 ,
+                      this.img_size().x * canvas_size.x,
+                      this.img_size().y * canvas_size.y);
+  }
 
   context.restore();
+
 };
+
 CanvasElement.prototype.img_size = function()
 {
-  return new Vector2(this.scale * this.width, this.scale * this.height);
+  return new Vector2(this.scale * this.width / this.downscale_factor , this.scale * this.height / this.downscale_factor);
 }
 CanvasElement.prototype.position = function ()
 {

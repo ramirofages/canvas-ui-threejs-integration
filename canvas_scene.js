@@ -8,18 +8,13 @@ CanvasScene.prototype.add_sticker = function( sticker)
 {
   this.stickers.push(sticker);
 }
-CanvasScene.prototype.draw = function(draw_controllers)
+CanvasScene.prototype.draw = function(context, draw_controllers, downscale_factor)
 {
   //context.clearRect(0, 0, this.rect.x, this.rect.y);
-  var show_ctrl = false;
 
-  if(draw_controllers == null)
-    show_ctrl = true;
-  else
-    show_ctrl = draw_controllers;
 
-  this.stickers.forEach( function(element){
-    element.draw(show_ctrl);
+  this.stickers.forEach( function(sticker){
+    sticker.draw(context, draw_controllers, downscale_factor);
   });
 }
 
