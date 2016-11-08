@@ -73,7 +73,7 @@ canvas.addEventListener('mousemove', function(e) {
 
 
 var background = new Image();
-background.src = 'kartStickers.jpg';
+background.src = 'background.jpg';
 canvas_scene.add_sticker (new Sticker(new Vector2(0.5,0.5), 'calcomania.jpg'));
 
 //###############################             ##############################//

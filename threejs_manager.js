@@ -45,10 +45,48 @@ var load_threejs_texture = function(url)
 
 //#################################################################################
 //#################################################################################
+var three_canvas = document.getElementById("myCanvasTHREE");
+
+var t_mouse_pos = function(e)
+{
+  var rect = three_canvas.getBoundingClientRect();
+  var x = e.clientX - rect.left;
+  var y = e.clientY - rect.top;
+  return new Vector2(x/three_canvas.width,y/three_canvas.height);
+}
+
+var t_mouse_down = false;
+var t_current_mouse_p = new Vector2(0,0);
+var t_last_mouse_p = new Vector2(0,0);
+
+three_canvas.addEventListener('mousedown', function(e) {
+  t_mouse_down = true;
+  t_current_mouse_p = t_mouse_pos(e);
+  t_last_mouse_p = t_mouse_pos(e);
+
+});
+three_canvas.addEventListener('mouseup', function(e) {
+  t_mouse_down = false;
+});
+three_canvas.addEventListener('mousemove', function(e) {
+
+  if(t_mouse_down)
+  {
+
+    t_last_mouse_p = t_current_mouse_p.copy();
+    t_current_mouse_p = t_mouse_pos(e);
+
+    var mouse_diff = t_current_mouse_p.sub(t_last_mouse_p);
+    var rotation_speed = 128;
+    cube.rotateOnAxis(new THREE.Vector3(0,1,0), mouse_diff.x * Math.PI / 180 * rotation_speed);
+  }
+});
 var render = function () {
 
   requestAnimationFrame( render );
   renderer.render(scene, camera);
+
+
 };
 
 render();
