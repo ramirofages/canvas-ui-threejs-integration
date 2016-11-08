@@ -3,6 +3,11 @@ var context = canvas.getContext('2d');
 context.rect(0, 0, canvas.width, canvas.height);
 
 
+var offscreen_canvas = document.getElementById('offscreen_canvas');
+var offscreen_context = offscreen_canvas.getContext('2d');
+context.rect(0, 0, offscreen_canvas.width, offscreen_canvas.height);
+
+
 var canvas_scene = new CanvasScene(canvas.width, canvas.height);
 
 var active_controller = null;
@@ -22,13 +27,17 @@ function draw_scene(show_controllers)
 {
 
   context.clearRect(0, 0, canvas.width, canvas.height);
+  offscreen_context.clearRect(0,0, offscreen_canvas.width, offscreen_canvas.height)
 
   if(background.complete)
   {
     context.drawImage(background, 0 , 0 , canvas.width, canvas.height);
+    offscreen_context.drawImage(background, 0 , 0 , offscreen_canvas.width, offscreen_canvas.height)
   }
 
   canvas_scene.draw(context, true, downscale_factor);
+  canvas_scene.draw(offscreen_context, true, 2);
+
 
 }
 
@@ -44,7 +53,8 @@ canvas.addEventListener('mousedown', function(e) {
 canvas.addEventListener('mouseup', function(e) {
   active_controller = null;
   draw_scene(false);
-  load_threejs_texture(canvas.toDataURL());
+  load_threejs_texture(offscreen_canvas.toDataURL());
+
   draw_scene();
 
 

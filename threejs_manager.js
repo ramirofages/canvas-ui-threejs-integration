@@ -6,8 +6,7 @@ var renderer = new THREE.WebGLRenderer({antialias : true, alpha: true, canvas: d
 renderer.setSize( 512, 512  );
 document.body.appendChild( renderer.domElement );
 
-camera.position.set(0,0,30);
-camera.position.z = 5;
+camera.position.z = 4;
 
 
 var geometry = new THREE.BoxGeometry( 3, 3, 3 );
