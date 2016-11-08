@@ -1,6 +1,5 @@
-function CanvasScene(rect_width, rect_height)
+function CanvasScene()
 {
-  this.rect = new Vector2(rect_width, rect_height);
   this.stickers = [];
 }
 

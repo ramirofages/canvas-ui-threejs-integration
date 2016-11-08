@@ -1,4 +1,4 @@
-function CanvasElement(x, y, downscale_factor, img_url) {
+function CanvasElement(x, y, img_url) {
   this.x = x;
 
   this.y = y;
@@ -34,7 +34,7 @@ CanvasElement.prototype.draw = function (context, downscale_factor)
 
   context.save();
   context.translate(pos.x , pos.y );
-  context.rotate(this.rot_deg * Math.PI /180 * canvas_size.y);
+  context.rotate(this.rot_deg * Math.PI /180 * 512);
 
   if(this.image.complete)
   {

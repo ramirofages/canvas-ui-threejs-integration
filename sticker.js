@@ -1,8 +1,8 @@
-function Sticker(position, downscale_factor, img_url)
+function Sticker(position, img_url)
 {
-  this.main_image = new CanvasElement(position.x, position.y, downscale_factor, img_url);
-  this.rotate_elem = new CanvasElement( position.x , position.y , 1, 'new_rotate.png');
-  this.resize_elem = new CanvasElement( position.x , position.y , 1, 'new_resize.png');
+  this.main_image = new CanvasElement(position.x, position.y, img_url);
+  this.rotate_elem = new CanvasElement( position.x , position.y, 'new_rotate.png');
+  this.resize_elem = new CanvasElement( position.x , position.y, 'new_resize.png');
   this.rotate_controller = new StickerRotationController(this, this.rotate_elem);
   this.scale_controller = new StickerScalingController(this, this.resize_elem);
   this.movement_controller = new StickerMovementController(this, this.main_image);
