@@ -30,17 +30,20 @@ function draw_scene(show_controllers)
   if(background.complete)
   {
     context.drawImage(background, 0 , 0 , canvas.width, canvas.height);
-    offscreen_context.drawImage(background, 0 , 0 , offscreen_canvas.width, offscreen_canvas.height)
+    offscreen_context.drawImage(background, 0 , 0 , offscreen_canvas.width, offscreen_canvas.height);
+
+    var downscale_factor = background.width / canvas.width;
+    canvas_scene.draw(context, true, downscale_factor);
+    canvas_scene.draw(offscreen_context, true, 1);
   }
 
-  canvas_scene.draw(context, true, 4);
-  canvas_scene.draw(offscreen_context, true, 1);
+
 
 
 }
 
 canvas.addEventListener('mousedown', function(e) {
-  active_controller = canvas_scene.get_active_controller(m_pos(e), canvas);
+  active_controller = canvas_scene.get_active_controller(normalized_mouse_pos(e), canvas);
 
   if(active_controller !== null)
   {

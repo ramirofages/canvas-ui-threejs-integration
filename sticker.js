@@ -43,7 +43,7 @@ Sticker.prototype.get_controller = function(point, canvas)
 
 Sticker.prototype.position = function()        { return this.main_image.position(); }
 Sticker.prototype.rotation = function()        { return this.main_image.rot_deg; }
-
+Sticker.prototype.scale    = function()        { return this.main_image.scale;}
 Sticker.prototype.rotate   = function(degrees)
 {
   this.main_image.rotate(degrees);

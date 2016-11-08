@@ -68,6 +68,7 @@ CanvasElement.prototype.set_scale = function ( scale )
 {
   this.scale = scale;
 }
+
 CanvasElement.prototype.contains = function(point, canvas, downscale_factor)
 {
 
